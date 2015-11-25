@@ -12,7 +12,7 @@
     <parent>
         <groupId>au.org.emii</groupId>
         <artifactId>geoserver</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -20,12 +20,12 @@
         <dependency>
             <groupId>au.org.emii</groupId>
             <artifactId>layer-filters</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>au.org.emii.wps</groupId>
             <artifactId>wps</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>au.org.emii.geoserver.wms</groupId>
