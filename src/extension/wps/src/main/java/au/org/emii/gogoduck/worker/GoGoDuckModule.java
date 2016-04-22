@@ -104,8 +104,11 @@ public class GoGoDuckModule {
 
     public static GoGoDuckModule newInstance(String profile, IndexReader indexReader, String subset, UserLog userLog) {
         String thisPackage = GoGoDuckModule.class.getPackage().getName();
-        String classToInstantiate = String.format("GoGoDuckModule_%s", profile);
-
+        
+        // We need to replace : in the layer name to _
+        String new_profile = profile.replace(':', '_');
+        String classToInstantiate = String.format("GoGoDuckModule_%s", new_profile);     
+        
         GoGoDuckModule module = null;
         while (null == module && !classToInstantiate.isEmpty()) {
             logger.debug(String.format("Trying class '%s.%s'", thisPackage, classToInstantiate));
