@@ -3,10 +3,8 @@
 <beans>
     <bean id="goGoDuckProcess" class="au.org.emii.wps.GoGoDuckProcess">
         <constructor-arg index="0" ref="wpsResourceManager"/>
-        <constructor-arg index="1" ref="retryingHttpNotifier"/>
-        <constructor-arg index="2" ref="catalog"/>
-        <constructor-arg index="3" ref="resourceLoader"/>
-        <constructor-arg index="4" ref="geoServer"/>
+        <constructor-arg index="1" ref="catalog"/>
+        <constructor-arg index="2" ref="resourceLoader"/>
     </bean>
 
     <bean id="retryingHttpNotifier" class="au.org.emii.notifier.RetryingHttpNotifier">
@@ -17,13 +15,18 @@
     <bean id="simpleHttpNotifier" class="au.org.emii.notifier.SimpleHttpNotifier">
         <constructor-arg index="0" ref="httpClient"/>
     </bean>
+    
+    <bean id="gogoduckListener" class="au.org.emii.listener.GoGoDuckListener">
+        <constructor-arg index="0" ref="retryingHttpNotifier"/>
+        <constructor-arg index="1" ref="geoServer"/>
+        <constructor-arg index="2" ref="wpsResourceManager"/>
+    </bean>
+                                                            
     <bean id="httpClient" class="org.geotools.data.ows.SimpleHttpClient"/>
 
     <bean id="netcdfOutputProcess" class="au.org.emii.wps.NetcdfOutputProcess">
         <constructor-arg index="0" ref="wpsResourceManager"/>
-        <constructor-arg index="1" ref="retryingHttpNotifier"/>
-        <constructor-arg index="2" ref="catalog"/>
-        <constructor-arg index="3" ref="servletContext"/>
-        <constructor-arg index="4" ref="geoServer"/>
+        <constructor-arg index="1" ref="catalog"/>
+        <constructor-arg index="2" ref="servletContext"/>
     </bean>
  </beans>

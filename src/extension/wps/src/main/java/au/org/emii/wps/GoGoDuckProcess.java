@@ -35,9 +35,9 @@ public class GoGoDuckProcess extends AbstractNotifierProcess {
     private final Catalog catalog;
     private final GeoServerResourceLoader resourceLoader;
 
-    public GoGoDuckProcess(WPSResourceManager resourceManager, HttpNotifier httpNotifier,
-            Catalog catalog, GeoServerResourceLoader resourceLoader, GeoServer geoserver) {
-        super(resourceManager, httpNotifier, geoserver);
+    public GoGoDuckProcess(WPSResourceManager resourceManager,
+            Catalog catalog, GeoServerResourceLoader resourceLoader) {
+        super(resourceManager);
         this.catalog = catalog;
         this.resourceLoader = resourceLoader;
         URLMangler.setUrlManglingMap(getConfigMap("/gogoduck/urlSubstitution"));
@@ -83,11 +83,10 @@ public class GoGoDuckProcess extends AbstractNotifierProcess {
             ggd.setProgressListener(progressListener);
 
             Path outputPath = ggd.run();
-            notifySuccess(callbackUrl, callbackParams);
+            
             return new FileRawData(outputPath.toFile(), ggd.getMimeType(), ggd.getExtension());
         } catch (GoGoDuckException e) {
             logger.error(e.toString());
-            notifyFailure(callbackUrl, callbackParams);
             throw new ProcessException(e);
         }
     }

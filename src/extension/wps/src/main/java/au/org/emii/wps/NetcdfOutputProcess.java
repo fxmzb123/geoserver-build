@@ -40,9 +40,9 @@ public class NetcdfOutputProcess extends AbstractNotifierProcess {
     private final String workingDir;
     private final ServletContext context;
 
-    public NetcdfOutputProcess(WPSResourceManager resourceManager, HttpNotifier httpNotifier,
-            Catalog catalog, ServletContext context, GeoServer geoserver) {
-        super(resourceManager, httpNotifier, geoserver);
+    public NetcdfOutputProcess(WPSResourceManager resourceManager,
+            Catalog catalog, ServletContext context) {
+        super(resourceManager);
         this.catalog = catalog;
         this.context = context;
         this.workingDir = getWorkingDir();
@@ -116,12 +116,9 @@ public class NetcdfOutputProcess extends AbstractNotifierProcess {
                 }
             }
 
-            notifySuccess(callbackUrl, callbackParams);
-
             return new FileRawData(outputFile, "application/zip", "zip");
 
         } catch (Exception e) {
-            notifyFailure(callbackUrl, callbackParams);
             throw new ProcessException(e.getMessage());
         } finally {
             if (encoder != null) {

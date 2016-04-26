@@ -1,9 +1,7 @@
 package au.org.emii.wps;
 
-import au.org.emii.notifier.HttpNotifier;
 import net.opengis.wps10.ExecuteType;
 
-import org.geoserver.config.GeoServer;
 import org.geoserver.ows.Dispatcher;
 import org.geoserver.ows.util.ResponseUtils;
 import org.geoserver.platform.Operation;
@@ -18,54 +16,10 @@ import java.net.URL;
 
 public abstract class AbstractNotifierProcess implements GeoServerProcess {
     private final WPSResourceManager resourceManager;
-    private final HttpNotifier httpNotifier;
     private static final Logger logger = LoggerFactory.getLogger(AbstractNotifierProcess.class);
-    private final GeoServer geoserver;
 
-    protected AbstractNotifierProcess(WPSResourceManager resourceManager, HttpNotifier httpNotifier, GeoServer geoserver) {
+    protected AbstractNotifierProcess(WPSResourceManager resourceManager) {
         this.resourceManager = resourceManager;
-        this.httpNotifier = httpNotifier;
-        this.geoserver = geoserver;
-    }
-
-    protected void notifySuccess(URL callbackUrl, String callbackParams) {
-        boolean successful = true;
-        notify(successful, callbackUrl, callbackParams);
-    }
-
-    protected void notifyFailure(URL callbackUrl, String callbackParams) {
-        boolean successful = false;
-        notify(successful, callbackUrl, callbackParams);
-    }
-
-    protected void notify(boolean successful, URL callbackUrl, String callbackParams) {
-        if (callbackUrl == null) return;
-
-        try {
-            httpNotifier.notify(callbackUrl, getWpsUrl(), getId(), successful, callbackParams);
-        } catch (IOException ioe) {
-            logger.error("Could not call callback", ioe);
-        }
-    }
-
-    protected URL getWpsUrl() throws MalformedURLException {
-        return new URL(ResponseUtils.appendPath(getBaseUrl(), "ows"));
-    }
-
-    protected String getBaseUrl() {
-        String url = ((geoserver != null) ? geoserver.getSettings().getProxyBaseUrl() : null);
-
-        if (url == null) {
-            Operation op = Dispatcher.REQUEST.get().getOperation();
-            ExecuteType execute = (ExecuteType) op.getParameters()[0];
-            url = execute.getBaseUrl();
-        }
-
-        return url;
-    }
-
-    protected String getId() {
-        return resourceManager.getExecutionId(true);
     }
 
     protected WPSResourceManager getResourceManager() {
